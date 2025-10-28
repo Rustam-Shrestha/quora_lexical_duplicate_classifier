@@ -1,0 +1,33 @@
+# Ignore all CSV files
+*.csv
+
+# Ignore Excel files
+*.xls
+*.xlsx
+
+# Ignore JSON and XML data files
+*.json
+*.xml
+
+# Ignore Parquet and Feather files
+*.parquet
+*.feather
+
+# Ignore HDF5 and pickle files
+*.h5
+*.hdf5
+*.pkl
+
+# Ignore any dataset folder
+datasets/
+data/
+
+jupyterenv/
+mlruns/
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+.DS_Store
+.env
+.env.local
+.env.*.local

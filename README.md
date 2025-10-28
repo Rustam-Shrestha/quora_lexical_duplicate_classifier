@@ -65,10 +65,60 @@ Reviewed and enhanced a robust preprocessing function that:
 - Removes HTML tags and punctuation
 - Handles apostrophes and stopwords
 
-Also resolved a `SyntaxWarning` by correcting regex usage:
+
 
 ```python
 pattern = re.compile(r'\W')  # Use raw string literal
 
 # quora_semantic_duplicate_classifier_system-
 # quora_semantic_duplicate_classifier_system-
+
+# Duplicate Question Detection Workflow — Daily Exploration Summary
+
+This document captures the full exploration of feature engineering, visualization, modeling, and semantic interpretation for duplicate question detection. It includes pairplot analysis, t-SNE interpretation, model pipelines, confusion matrix evaluation, and a flowchart of the prediction system.
+
+---
+
+##  Pairplot Analysis (ctc_min, cwc_min, csc_min)
+
+**Features:**
+- `ctc_min`: Common token count (includes all words)
+- `cwc_min`: Common word count (excludes stopwords)
+- `csc_min`: Common stopword count (only filler words)
+
+**Observations:**
+- `ctc_min` vs `cwc_min`: Strong separation — duplicates share both total and meaningful words.
+- `ctc_min` vs `csc_min`: Moderate signal — duplicates share stopwords, but overlap with non-duplicates.
+- `cwc_min` vs `csc_min`: Weak alone — some rising pattern, but not fully separable.
+
+**Takeaways:**
+- Prioritize `ctc_min` and `cwc_min` for classification.
+- Use `csc_min` as a supporting feature.
+- Combine features to boost signal.
+
+---
+
+## t-SNE Interpretation (2D)
+
+**Goal:** Visualize high-dimensional question pair features in 2D.
+
+**Insights:**
+- Duplicates (blue) form tight clusters → strong semantic similarity.
+- Non-duplicates (red) are more scattered → diverse phrasing.
+- Overlap zones indicate ambiguous cases.
+- Outliers may be noisy or rare patterns.
+
+**Takeaways:**
+- Features capture structure well.
+- Use t-SNE to justify feature selection and model strategy.
+
+---
+
+## Model Pipelines (Random Forest & XGBoost)
+
+###  Data Preparation
+```python
+X = final_df.iloc[:, 1:].values
+y = final_df.iloc[:, 0].values
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
