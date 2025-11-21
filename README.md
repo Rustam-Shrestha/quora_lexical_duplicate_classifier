@@ -1,6 +1,81 @@
 # Quora Duplicate Question Classifier System 
 
-![Alt text](https://github.com/santosh-ai/duplicate-detector/blob/main/assets/diagram.png)
+
+**A lightweight, interpretable duplicate question detection system using hand-crafted lexical & fuzzy features**
+
+**Live Demo** → (Deploy your Streamlit app and paste the link here)  
+**GitHub Repository** → (Paste your repo link here)  
+**Dataset** → [Kaggle Quora Question Pairs](https://www.kaggle.com/c/quora-question-pairs)  
+
+---
+
+### Objective
+Detect whether two questions are duplicates using only lexical patterns and string similarity — **no embeddings, no transformers, no LLMs**.  
+Real-world goal: Help Q&A platforms like Quora automatically identify and merge near-duplicate questions to reduce redundancy and improve user experience.
+
+---
+
+### Key Features Engineered
+
+| Category                  | Features                                                                                           |
+|---------------------------|----------------------------------------------------------------------------------------------------|
+| Token Overlap             | `cwc_min`, `cwc_max`, `ctc_min`, `ctc_max`, `csc_min`, `csc_max`, `first_word_eq`, `last_word_eq` |
+| Length & Structure        | `abs_len_diff`, `mean_len`, `token_set_ratio`, `token_sort_ratio`                                  |
+| Longest Substring Ratio   | `longest_substr_ratio` = Length of longest common substring / Avg length of both questions        |
+| Fuzzy Matching (fuzzywuzzy) | `fuzz_ratio`, `fuzz_partial_ratio`, `fuzz_token_sort_ratio`, `fuzz_token_set_ratio`                |
+| Others                    | Question mark count, special character count, numbers presence, etc.                               |
+
+---
+
+### Text Preprocessing Pipeline
+- Lowercase + strip whitespace  
+- Expand contractions (`don't` → `do not`, etc.)  
+- Replace currency/symbols with words (`$` → `dollar`, `₹` → `rupee`)  
+- Remove/replace noisy patterns: `[math]`, HTML tags, excessive punctuation  
+- Smart handling of apostrophes and repeated characters  
+
+---
+
+### Exploratory Data Analysis & Visualization
+
+#### Pairplot Insights (ctc_min, cwc_min, csc_min)
+- Strong separation on `ctc_min` & `cwc_min` → duplicates share both total and meaningful words  
+- `csc_min` (stopwords) adds moderate signal but overlaps heavily with non-duplicates  
+- Best discrimination comes from combining content-word overlap features  
+
+#### t-SNE 2D Projection
+- Duplicate pairs form tight, well-defined clusters  
+- Non-duplicates are widely scattered  
+- Clear visual proof that hand-crafted features capture similarity effectively  
+
+(Insert your t-SNE plot here)  
+(Insert your pairplot screenshot here)
+
+---
+
+### Modeling & Results
+
+| Model             | Accuracy | Log Loss | Notes                                      |
+|-------------------|----------|----------|--------------------------------------------|
+| XGBoost           | 79.2%    | 0.482    | Slightly higher accuracy                   |
+| **Random Forest** | **78.4%**| **0.491**| **Chosen** — significantly fewer false positives |
+
+**Final Model**: Random Forest (prioritizes lower false positive rate for real-world use)
+
+![Alt text](https://github.com/Rustam-Shrestha/quora_lexical_duplicate_classifier/tree/main/assets)
+
+
+![Screenshot 1](assets/Screenshot%20from%202025-11-21%2018-37-15.png)
+![Screenshot 2](assets/Screenshot%20from%202025-11-21%2018-37-41.png)
+![Screenshot 3](assets/Screenshot%20from%202025-11-21%2018-38-01.png)
+![Screenshot 4](assets/Screenshot%20from%202025-11-21%2018-38-23.png)
+![Screenshot 5](assets/Screenshot%20from%202025-11-21%2018-38-42.png)
+![Screenshot 6](assets/Screenshot%20from%202025-11-21%2018-38-59.png)
+![Screenshot 7](assets/Screenshot%20from%202025-11-21%2018-39-11.png)
+
+# diagram
+https://github.com/Rustam-Shrestha/quora_lexical_duplicate_classifier/tree/main/assets
+
 
 
 ---
@@ -122,3 +197,16 @@ X = final_df.iloc[:, 1:].values
 y = final_df.iloc[:, 0].values
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
+
+
+
+---
+
+### Model Training Pipeline (Placeholder)
+```python
+# X = features, y = is_duplicate
+# X_train, X_test, y_train, y_test = train_test_split(...)
+# model = RandomForestClassifier(n_estimators=400, max_depth=None, random_state=42)
+# model.fit(X_train, y_train)
+# y_pred = model.predict(X_test)
+# → Evaluate accuracy, log loss, confusion matrix
