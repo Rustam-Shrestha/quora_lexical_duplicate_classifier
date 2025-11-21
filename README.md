@@ -3,9 +3,9 @@
 
 **A lightweight, interpretable duplicate question detection system using hand-crafted lexical & fuzzy features**
 
-**Live Demo** → (Deploy your Streamlit app and paste the link here)  
-**GitHub Repository** → (Paste your repo link here)  
-**Dataset** → [Kaggle Quora Question Pairs](https://www.kaggle.com/c/quora-question-pairs)  
+**Live Demo** -> (Deploy your Streamlit app and paste the link here)  
+**GitHub Repository** -> (Paste your repo link here)  
+**Dataset** -> [Kaggle Quora Question Pairs](https://www.kaggle.com/c/quora-question-pairs)  
 
 ---
 
@@ -29,8 +29,8 @@ Real-world goal: Help Q&A platforms like Quora automatically identify and merge 
 
 ### Text Preprocessing Pipeline
 - Lowercase + strip whitespace  
-- Expand contractions (`don't` → `do not`, etc.)  
-- Replace currency/symbols with words (`$` → `dollar`, `₹` → `rupee`)  
+- Expand contractions (`don't` -> `do not`, etc.)  
+- Replace currency/symbols with words (`$` -> `dollar`, `₹` -> `rupee`)  
 - Remove/replace noisy patterns: `[math]`, HTML tags, excessive punctuation  
 - Smart handling of apostrophes and repeated characters  
 
@@ -39,7 +39,7 @@ Real-world goal: Help Q&A platforms like Quora automatically identify and merge 
 ### Exploratory Data Analysis & Visualization
 
 #### Pairplot Insights (ctc_min, cwc_min, csc_min)
-- Strong separation on `ctc_min` & `cwc_min` → duplicates share both total and meaningful words  
+- Strong separation on `ctc_min` & `cwc_min` -> duplicates share both total and meaningful words  
 - `csc_min` (stopwords) adds moderate signal but overlaps heavily with non-duplicates  
 - Best discrimination comes from combining content-word overlap features  
 
@@ -64,14 +64,15 @@ Real-world goal: Help Q&A platforms like Quora automatically identify and merge 
 
 ![Alt text](https://github.com/Rustam-Shrestha/quora_lexical_duplicate_classifier/tree/main/assets)
 
-
 ![Screenshot 1](assets/Screenshot%20from%202025-11-21%2018-37-15.png)
-![Screenshot 2](assets/Screenshot%20from%202025-11-21%2018-37-41.png)
-![Screenshot 3](assets/Screenshot%20from%202025-11-21%2018-38-01.png)
-![Screenshot 4](assets/Screenshot%20from%202025-11-21%2018-38-23.png)
-![Screenshot 5](assets/Screenshot%20from%202025-11-21%2018-38-42.png)
-![Screenshot 6](assets/Screenshot%20from%202025-11-21%2018-38-59.png)
+![Screenshot 2](assets/Screenshot%20from%202025-11-21%2018-37-47.png)
+![Screenshot 3](assets/Screenshot%20from%202025-11-21%2018-38-15.png)
+![Screenshot 4](assets/Screenshot%20from%202025-11-21%2018-38-29.png)
+![Screenshot 5](assets/Screenshot%20from%202025-11-21%2018-38-43.png)
+![Screenshot 6](assets/Screenshot%20from%202025-11-21%2018-39-00.png)
 ![Screenshot 7](assets/Screenshot%20from%202025-11-21%2018-39-11.png)
+
+
 
 # diagram
 https://github.com/Rustam-Shrestha/quora_lexical_duplicate_classifier/tree/main/assets
@@ -178,8 +179,8 @@ This document captures the full exploration of feature engineering, visualizatio
 **Goal:** Visualize high-dimensional question pair features in 2D.
 
 **Insights:**
-- Duplicates (blue) form tight clusters → strong semantic similarity.
-- Non-duplicates (red) are more scattered → diverse phrasing.
+- Duplicates (blue) form tight clusters -> strong semantic similarity.
+- Non-duplicates (red) are more scattered -> diverse phrasing.
 - Overlap zones indicate ambiguous cases.
 - Outliers may be noisy or rare patterns.
 
@@ -209,4 +210,4 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # model = RandomForestClassifier(n_estimators=400, max_depth=None, random_state=42)
 # model.fit(X_train, y_train)
 # y_pred = model.predict(X_test)
-# → Evaluate accuracy, log loss, confusion matrix
+# -> Evaluate accuracy, log loss, confusion matrix
