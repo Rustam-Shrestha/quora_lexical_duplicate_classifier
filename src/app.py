@@ -4,6 +4,19 @@ import pickle
 
 # Load model
 model = pickle.load(open('model.pkl', 'rb'))
+import nltk
+from nltk.corpus import stopwords
+import pickle
+
+# Make sure stopwords are downloaded
+nltk.download('stopwords')
+
+# Get English stopwords
+STOP_WORDS = stopwords.words("english")
+
+# Save them into a pickle file
+with open("../src/stopwords.pkl", "wb") as f:
+    pickle.dump(STOP_WORDS, f)
 
 # Page configuration
 st.set_page_config(page_title="Duplicate Question Detector", layout="centered")
